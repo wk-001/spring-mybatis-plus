@@ -36,9 +36,14 @@ public class CodeGenerator {
 	private static final String AUTHOR = "wk";
 
 	/**
+	 * 接口生成位置
+	 */
+	private static final String INTERFACE_PATH = "/src/main/resources/mapper/";
+
+	/**
 	 * JDBC相关配置
 	 */
-	private static final String DRIVER = "com.mysql.jdbc.Driver";
+	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://localhost:3306/test?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC&rewriteBatchedStatements=true";
 	private static final String USER_NAME = "root";
 	private static final String PASSWORD = "root";
@@ -111,7 +116,7 @@ public class CodeGenerator {
                /* return projectPath + "/src/main/resources/mappers/" + pc.getModuleName()
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;*/
 				//根据自己的位置修改
-				return projectPath + "/src/main/resources/mapper/" +tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+				return projectPath + INTERFACE_PATH +tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
 			}
 		});
         /*

@@ -57,4 +57,13 @@ public class CodeTest {
         List<User> list = userService.list();
         list.forEach(System.out::println);
     }
+
+    @Test
+    public void addTest(){
+        User user = new User();
+        user.setName("22");
+        user.setAge(22);
+        user.setEmail("1224@qq.com");
+        userService.save(user);
+    }
 }

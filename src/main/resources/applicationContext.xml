@@ -69,6 +69,17 @@
         <property name="typeAliasesPackage" value="com.wk.pojo"/>
         <!--指定mapper.xml文件位置-->
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <!-- 注入MyBatisPlus全局策略配置 -->
+        <property name="globalConfig">
+            <bean class="com.baomidou.mybatisplus.core.config.GlobalConfig">
+                <property name="dbConfig">
+                    <bean class="com.baomidou.mybatisplus.core.config.GlobalConfig.DbConfig">
+                        <!--主键规则 设置主键策略为数据库自增-->
+                        <property name="idType" value="AUTO"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
         <!-- 配置分页插件 -->
         <property name="plugins">
             <array> <!-- pageHelper5.0版本后的class如下↓ -->
@@ -88,7 +99,6 @@
         <!--扫描所有dao接口的时间，并加入到IOC容器中-->
         <property name="basePackage" value="com.wk.dao"/>
     </bean>
-
 
     <!--事务管理器-->
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
