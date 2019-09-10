@@ -76,6 +76,8 @@
                     <bean class="com.baomidou.mybatisplus.core.config.GlobalConfig.DbConfig">
                         <!--主键规则 设置主键策略为数据库自增-->
                         <property name="idType" value="AUTO"/>
+                        <!--表前缀
+                        <property name="tablePrefix" value="tbl_"/>-->
                     </bean>
                 </property>
             </bean>
