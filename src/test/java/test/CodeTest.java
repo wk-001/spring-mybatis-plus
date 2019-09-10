@@ -65,5 +65,7 @@ public class CodeTest {
         user.setAge(22);
         user.setEmail("1224@qq.com");
         userService.save(user);
+        //MyBatisPlus完成插入数据操作后自动将主键返回到对象中
+        System.out.println("user.getId() = " + user.getId());
     }
 }
