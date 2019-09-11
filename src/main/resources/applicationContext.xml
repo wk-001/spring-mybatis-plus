@@ -93,9 +93,20 @@
                     </property>
                 </bean>
             </array>-->
-            <!--MyBatisPlus分页插件-->
+
             <list>
+                <!--MyBatisPlus分页插件-->
                 <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"></bean>
+
+                <!--SQL阻断解析器，可以避免删除全表数据，开发环境使用-->
+                <bean class="com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor">
+                    <property name="sqlParserList">
+                        <list>
+                            <bean class="com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser"></bean>
+                        </list>
+                    </property>
+                </bean>
+
             </list>
         </property>
     </bean>

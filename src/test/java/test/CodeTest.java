@@ -71,4 +71,10 @@ public class CodeTest {
         //MyBatisPlus完成插入数据操作后自动将主键返回到对象中
         System.out.println("user.getId() = " + user.getId());
     }
+
+    //全表删除测试
+    @Test
+    public void delAll(){
+        userService.remove(null);
+    }
 }
