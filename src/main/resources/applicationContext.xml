@@ -84,7 +84,7 @@
         </property>
         <!-- 配置分页插件 -->
         <property name="plugins">
-            <array> <!-- pageHelper5.0版本后的class如下↓ -->
+            <!--<array>  pageHelper分页
                 <bean class="com.github.pagehelper.PageInterceptor">
                     <property name="properties">
                         <value>
@@ -92,7 +92,11 @@
                         </value>
                     </property>
                 </bean>
-            </array>
+            </array>-->
+            <!--MyBatisPlus分页插件-->
+            <list>
+                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"></bean>
+            </list>
         </property>
     </bean>
 

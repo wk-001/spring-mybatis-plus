@@ -1,5 +1,7 @@
 package test;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wk.pojo.User;
 import com.wk.service.UserService;
 import org.junit.Before;
@@ -54,7 +56,8 @@ public class CodeTest {
 
     @Test
     public void list(){
-        List<User> list = userService.list();
+        IPage<User> page = userService.page(new Page<User>(0, 2));
+        List<User> list = page.getRecords();
         list.forEach(System.out::println);
     }
 
