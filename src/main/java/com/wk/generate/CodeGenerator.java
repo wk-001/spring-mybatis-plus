@@ -12,11 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @ClassName: CodeGeneration
  * @Description: 代码生成器
- * @author aqian666
- * @date 2019年7月2日14:08:37
  */
 public class CodeGenerator {
 
@@ -59,11 +55,11 @@ public class CodeGenerator {
 		gc.setAuthor(AUTHOR);//作者名称
 		gc.setOpen(false);
 		// gc.setSwagger2(true); 实体属性 Swagger2 注解
-		gc.setFileOverride(true);
+		gc.setFileOverride(true);	//第二次生成的文件覆盖第一次的
 		gc.setActiveRecord(false);// 不需要ActiveRecord特性的请改为false
 		gc.setEnableCache(false);// XML 二级缓存
-		gc.setBaseResultMap(true);// XML ResultMap
-		gc.setBaseColumnList(false);// XML columList
+		gc.setBaseResultMap(true);// XML 生成ResultMap
+		gc.setBaseColumnList(true);// XML columList 生成基本的SQL片段
 		gc.setAuthor(AUTHOR);// 作者
 
 		// 自定义文件命名，注意 %s 会自动填充表实体属性！
@@ -147,8 +143,8 @@ public class CodeGenerator {
 
 		// 策略配置
 		StrategyConfig strategy = new StrategyConfig();
-		strategy.setNaming(NamingStrategy.underline_to_camel);
-		strategy.setColumnNaming(NamingStrategy.underline_to_camel);
+		strategy.setNaming(NamingStrategy.underline_to_camel);		//数据库表下划线驼峰命名
+		strategy.setColumnNaming(NamingStrategy.underline_to_camel); //字段下划线驼峰命名
 		//strategy.setSuperEntityClass("com.baomidou.ant.common.BaseEntity");
 		strategy.setEntityLombokModel(true);
 		strategy.setRestControllerStyle(true);
