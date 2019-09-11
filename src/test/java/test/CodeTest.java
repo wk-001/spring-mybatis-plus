@@ -77,4 +77,23 @@ public class CodeTest {
     public void delAll(){
         userService.remove(null);
     }
+
+    //测试乐观锁,版本号与数据库一样才进行更新操作
+    @Test
+    public void happyLock(){
+        User user = new User();
+        user.setId(5l);
+        user.setName("bb");
+        user.setAge(24);
+        user.setEmail("1234fasd@qq.com");
+        user.setVersion(1);
+        userService.updateById(user);
+    }
+
+    //逻辑删除测试；使用mp自带方法删除和查找都会附带逻辑删除功能 (自己写的xml不会)
+    @Test
+    public void logicDelete(){
+        userService.removeById(4);
+        userService.getById(4);     //自带方法查不到被逻辑删除的数据
+    }
 }

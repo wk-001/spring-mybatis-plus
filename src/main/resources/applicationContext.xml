@@ -78,8 +78,13 @@
                         <property name="idType" value="AUTO"/>
                         <!--表前缀
                         <property name="tablePrefix" value="tbl_"/>-->
+                        <!--设置逻辑删除标志 1：存在；0：已删除-->
+                        <property name="logicDeleteValue" value="0"/>
+                        <property name="logicNotDeleteValue" value="1"/>
                     </bean>
                 </property>
+                <!--注入逻辑删除-->
+                <property name="sqlInjector" ref="logicDelete"/>
             </bean>
         </property>
         <!-- 配置分页插件 -->
@@ -96,20 +101,25 @@
 
             <list>
                 <!--MyBatisPlus分页插件-->
-                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"></bean>
+                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"/>
 
                 <!--SQL阻断解析器，可以避免删除全表数据，开发环境使用-->
                 <bean class="com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor">
                     <property name="sqlParserList">
                         <list>
-                            <bean class="com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser"></bean>
+                            <bean class="com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser"/>
                         </list>
                     </property>
                 </bean>
 
+                <!--乐观锁插件，更新数据前对比数据版本号，每次更新版本号自增1-->
+                <bean class="com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor"/>
             </list>
         </property>
     </bean>
+
+    <!--MybatisPlus逻辑删除-->
+    <bean id="logicDelete" class="com.baomidou.mybatisplus.core.injector.DefaultSqlInjector"/>
 
     <!--扫描器，将mapper接口的实现类加入到IOC容器中-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

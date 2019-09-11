@@ -1,9 +1,12 @@
 package com.wk.pojo;
 
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -40,5 +43,15 @@ public class User implements Serializable {
      */
     private String email;
 
+    /**
+     * 乐观锁版本号
+     */
+    @Version
+    private Integer version;
 
+    /**
+     * 逻辑删除
+     */
+    @TableLogic
+    private Integer deleted;
 }
