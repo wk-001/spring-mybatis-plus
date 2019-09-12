@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
 
+	//自定义方法和mybatis一样写
+	User getUserById(int id);
 }

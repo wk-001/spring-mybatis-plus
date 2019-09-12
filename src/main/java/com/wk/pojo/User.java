@@ -44,13 +44,13 @@ public class User implements Serializable {
     private String email;
 
     /**
-     * 乐观锁版本号
+     * 乐观锁版本号，必须加上@Version注解
      */
     @Version
     private Integer version;
 
     /**
-     * 逻辑删除
+     * 逻辑删除，必须加上@TableLogic注解
      */
     @TableLogic
     private Integer deleted;

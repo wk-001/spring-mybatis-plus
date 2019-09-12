@@ -10,4 +10,13 @@
         <result column="email" property="email" />
     </resultMap>
 
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, age, gender, email
+    </sql>
+    <select id="getUserById" parameterType="integer" resultType="com.wk.pojo.User">
+        select
+        <include refid="Base_Column_List"/>
+        from user where id = #{id}
+    </select>
 </mapper>

@@ -34,7 +34,7 @@ public class CodeGenerator {
 	/**
 	 * 接口生成位置
 	 */
-	private static final String INTERFACE_PATH = "/src/main/resources/mapper/";
+	private static final String INTERFACE_PATH = "/src/main/resources/mappers/";
 
 	/**
 	 * JDBC相关配置

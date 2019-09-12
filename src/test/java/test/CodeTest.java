@@ -96,4 +96,11 @@ public class CodeTest {
         userService.removeById(4);
         userService.getById(4);     //自带方法查不到被逻辑删除的数据
     }
+
+    //自定义方法
+    @Test
+    public void custom(){
+        User userById = userService.getUserById(1);
+        System.out.println("userById = " + userById);
+    }
 }
