@@ -39,7 +39,7 @@ public class CodeGenerator {
 	/**
 	 * JDBC相关配置
 	 */
-	private static final String DRIVER = "com.mysq.jdbc.Driver";
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://localhost:3306/test?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC&rewriteBatchedStatements=true";
 	private static final String USER_NAME = "root";
 	private static final String PASSWORD = "root";
