@@ -56,9 +56,18 @@ public class CodeTest {
 
     @Test
     public void list(){
-        IPage<User> page = userService.page(new Page<User>(0, 2));
+        Page<User> page = new Page<>(0, 2);
+        IPage<User> pages = userService.page(page);
         List<User> list = page.getRecords();
         list.forEach(System.out::println);
+        /*------------------分页信息--------------------------*/
+        System.out.println("数据总数 = " + page.getTotal());
+        System.out.println("当前页码 = " + page.getCurrent());
+        System.out.println("总页数 = " + page.getPages());
+        System.out.println("每页数据条数 = " + page.getSize());
+        System.out.println("是否有上一页 = " + page.hasPrevious());
+        System.out.println("是否有下一页 = " + page.hasNext());
+        System.out.println("page中的数据 = " + page.getRecords());
     }
 
     @Test
