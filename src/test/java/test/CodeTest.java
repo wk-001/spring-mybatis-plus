@@ -1,5 +1,8 @@
 package test;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wk.pojo.User;
@@ -18,7 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration    //获取web的IOC
@@ -54,9 +57,12 @@ public class CodeTest {
         System.out.println("str = " + str);
     }
 
+    //分页查询
     @Test
     public void list(){
+        //参数：当前页 每页显示几条
         Page<User> page = new Page<>(0, 2);
+        //查询结果会放到page对象中
         IPage<User> pages = userService.page(page);
         List<User> list = page.getRecords();
         list.forEach(System.out::println);
@@ -69,19 +75,97 @@ public class CodeTest {
         System.out.println("是否有下一页 = " + page.hasNext());
         System.out.println("page中的数据 = " + page.getRecords());
     }
-
+    //添加测试
     @Test
     public void addTest(){
-        User user = new User();
-        user.setName("22");
-        user.setAge(22);
-        user.setEmail("1224@qq.com");
-        userService.save(user);
+        /*User user = new User("张三",20,"123@qq.com",1,1);
+        userService.save(user); //添加一个对象
         //MyBatisPlus完成插入数据操作后自动将主键返回到对象中
-        System.out.println("user.getId() = " + user.getId());
+        System.out.println("user.getId() = " + user.getId());*/
+
+        List<User> list = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            User user = new User(null,"张三"+i,20+i,"123"+i+"@qq.com",1,1);
+            list.add(user);
+        }
+        //批量添加
+        userService.saveBatch(list);
+        /*批量添加后的id自动将主键返回到对象中
+        for (User user : list) {
+            System.out.println("user = " + user.getId());
+        }*/
     }
 
-    //全表删除测试
+    //修改测试
+    @Test
+    public void updTest(){
+        User user = new User(5,"李四",28,"123.163.com",1,1);
+        //userService.updateById(user);   //根据ID修改
+        /**
+         * 条件构造器
+         */
+        Wrapper<User> wrapper = new UpdateWrapper<User>()
+                .eq("name","张三0")
+                /*.eq(StringUtils.isNotEmpty("name"),"name","张三0") 判断传入的name不为空才加入最后生成的sql中
+                或者.eq(name!=null,"name","张三0")
+                * 相当于xml中的<if test="name!=null"> name = #{name}</if>*/
+                .lt("id","20");
+        userService.update(user,wrapper);
+    }
+
+    //删除测试
+    @Test
+    public void delTest(){
+       // userService.removeById(1l);     //根据ID删除
+       /* List<Long> list = new ArrayList<>();
+        list.add(5l);
+        list.add(6l);
+        list.add(7l);
+        userService.removeByIds(list); */     //批量删除
+
+        /*Map<String,Object> map = new HashMap<>();
+        map.put("age",21);
+        userService.removeByMap(map);*/     //根据map进行删除 多个map之间是and的关系
+
+        //条件构造器 删除ID在10到20之间 age大于30 name中有12的
+        QueryWrapper<User> wrapper = new QueryWrapper<User>()
+                .between("id",10,20)
+                .gt("age",30)
+                .like("name",12);
+        userService.remove(wrapper);
+    }
+
+    //查询测试
+    @Test
+    public void queryTest(){
+
+        //User user = userService.getById(10l);//根据ID查询一个对象
+        /* 根据ID查询多个对象
+        List<Long> list = new ArrayList<>();
+        list.add(9l);
+        list.add(10l);
+        list.add(7l);
+        Collection<User> users = userService.listByIds(list);
+        for (User user1 : users) {
+            System.out.println("user1 = " + user1);
+        }*/
+
+        /*  根据map查询
+        Map<String,Object> map = new HashMap<>();
+        map.put("age",22);
+        Collection<User> users = userService.listByMap(map);
+        for (User user1 : users) {
+            System.out.println("user1 = " + user1);
+        }*/
+
+        int count = userService.count();//查询所有条数
+        System.out.println("count = " + count);
+        Wrapper<User> tWrapper = new QueryWrapper<User>().eq("name","张三3");
+        int count1 = userService.count(tWrapper);
+        System.out.println("count1 = " + count1);
+    }
+
+    //全表删除测试 如果配置了SQL阻断解析器 那么该方法不会生效
     @Test
     public void delAll(){
         userService.remove(null);
@@ -91,12 +175,14 @@ public class CodeTest {
     @Test
     public void happyLock(){
         User user = new User();
-        user.setId(5l);
+        user.setId(5);
         user.setName("bb");
         user.setAge(24);
         user.setEmail("1234fasd@qq.com");
         user.setVersion(1);
-        userService.updateById(user);
+        //userService.updateById(user);     根据id修改数据
+        Wrapper<User> updWrapper = new UpdateWrapper<>();
+        userService.update(user,updWrapper);
     }
 
     //逻辑删除测试；使用mp自带方法删除和查找都会附带逻辑删除功能 (自己写的xml不会)
@@ -109,7 +195,7 @@ public class CodeTest {
     //自定义方法
     @Test
     public void custom(){
-        User userById = userService.getUserById(1);
+        User userById = userService.getUserById(6);
         System.out.println("userById = " + userById);
     }
 }
