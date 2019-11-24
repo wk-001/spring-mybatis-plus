@@ -99,11 +99,11 @@
             <artifactId>mybatis-plus-generator</artifactId>
             <version>${mybatis-plus-version}</version>
         </dependency>
-
+        <!--MP代码生成器需要的模板依赖-->
         <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>${freemarker-version}</version>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.1</version>
         </dependency>
 
         <!--数据库连接池-->
