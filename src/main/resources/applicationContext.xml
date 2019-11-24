@@ -65,28 +65,13 @@
     <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
         <!--引用数据源-->
         <property name="dataSource" ref="dataSource"/>
-        <!--mapper.xml文件的类引用直接写类名，不用写全类名-->
+        <!--配置实体扫描路径 mapper.xml文件的类引用直接写类名，不用写全类名 多个package用逗号隔开-->
         <property name="typeAliasesPackage" value="com.wk.pojo"/>
         <!--指定mapper.xml文件位置-->
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
         <!-- 注入MyBatisPlus全局策略配置 -->
-        <property name="globalConfig">
-            <bean class="com.baomidou.mybatisplus.core.config.GlobalConfig">
-                <property name="dbConfig">
-                    <bean class="com.baomidou.mybatisplus.core.config.GlobalConfig.DbConfig">
-                        <!--主键规则 设置主键策略为数据库自增-->
-                        <property name="idType" value="AUTO"/>
-                        <!--表前缀
-                        <property name="tablePrefix" value="tbl_"/>-->
-                        <!--设置逻辑删除标志 1：存在；0：已删除-->
-                        <property name="logicDeleteValue" value="0"/>
-                        <property name="logicNotDeleteValue" value="1"/>
-                    </bean>
-                </property>
-                <!--注入逻辑删除-->
-                <property name="sqlInjector" ref="logicDelete"/>
-            </bean>
-        </property>
+        <property name="globalConfig" ref="globalConfig"/>
+
         <!-- 配置分页插件 -->
         <property name="plugins">
             <!--<array>  pageHelper分页
@@ -116,6 +101,23 @@
                 <bean class="com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor"/>
             </list>
         </property>
+    </bean>
+
+    <!--声明全局配置-->
+    <bean id="globalConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig">
+        <property name="dbConfig">
+            <bean class="com.baomidou.mybatisplus.core.config.GlobalConfig.DbConfig">
+                <!--主键规则 设置主键策略为数据库自增-->
+                <property name="idType" value="AUTO"/>
+                <!--表前缀
+                <property name="tablePrefix" value="tbl_"/>-->
+                <!--设置逻辑删除标志 1：存在；0：已删除-->
+                <property name="logicDeleteValue" value="0"/>
+                <property name="logicNotDeleteValue" value="1"/>
+            </bean>
+        </property>
+        <!--注入逻辑删除-->
+        <property name="sqlInjector" ref="logicDelete"/>
     </bean>
 
     <!--MybatisPlus逻辑删除-->
