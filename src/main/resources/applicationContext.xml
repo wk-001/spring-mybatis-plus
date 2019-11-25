@@ -11,10 +11,12 @@
 
     <!--Spring的配置文件，主要配置和业务逻辑相关的，如数据源，事务控制等-->
 
-    <!--扫描除controller以外的包-->
+    <context:component-scan base-package="com.wk.service.impl"/>
+
+    <!--扫描除controller以外的包
     <context:component-scan base-package="com.wk">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
+    </context:component-scan>-->
 
     <!--导入资源文件-->
     <context:property-placeholder location="classpath:jdbc.properties"/>
@@ -22,17 +24,17 @@
 
     <!-- 配置数据源 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init">
-        <property name="username" value="${dataSource.username}"></property>
-        <property name="password" value="${dataSource.password}"></property>
         <property name="driverClassName" value="${dataSource.driverClass}"></property>
         <property name="url" value="${dataSource.jdbcUrl}"></property>
+        <property name="username" value="${dataSource.username}"></property>
+        <property name="password" value="${dataSource.password}"></property>
 
         <!-- 初始化连接大小 -->
-        <property name="initialSize" value="0"></property>
+        <property name="initialSize" value="1"></property>
         <!-- 连接池最大使用连接数量 -->
         <property name="maxActive" value="20"></property>
         <!-- 连接池最小空闲 -->
-        <property name="minIdle" value="0" />
+        <property name="minIdle" value="1" />
         <!-- 获取连接最大等待时间 -->
         <property name="maxWait" value="60000" />
 
@@ -57,11 +59,11 @@
 
         <!-- 监控数据库 -->
         <!-- <property name="filters" value="stat" /> -->
-        <property name="filters" value="mergeStat" />
+        <property name="filters" value="mergeStat,log4j,wall" />
     </bean>
 
 
-    <!--Mybatis配置-->
+    <!--Mybatis Plus配置-->
     <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
         <!--引用数据源-->
         <property name="dataSource" ref="dataSource"/>
@@ -127,6 +129,8 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--扫描所有dao接口的时间，并加入到IOC容器中-->
         <property name="basePackage" value="com.wk.dao"/>
+        <!-- 注入sqlSessionFactory -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
     <!--事务管理器-->
